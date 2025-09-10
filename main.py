@@ -20,12 +20,17 @@ def home():
 def get_token():
     """
     Récupère le token dynamique contenu dans l'attribut 'action'
-    du formulaire de la page de login eMission2.
+    du formulaire de la page de login eMission2 et retourne les cookies
+    renvoyés par le serveur.
     """
     try:
         # Récupère le HTML
         response = requests.get(BASE_URL, verify=False, timeout=10)
         response.raise_for_status()
+
+        # Récupère les cookies renvoyés par le serveur
+        cookies = response.cookies.get_dict()
+        set_cookie = response.headers.get("set-cookie")
 
         # Parse le HTML
         soup = BeautifulSoup(response.text, "html.parser")
@@ -44,7 +49,9 @@ def get_token():
 
         return {
             "action_url": action,
-            "token": token
+            "token": token,
+            "cookies": cookies,
+            "set_cookie": set_cookie,
         }
 
     except Exception as e:
