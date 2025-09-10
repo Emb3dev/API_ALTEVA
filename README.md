@@ -18,4 +18,4 @@ uvicorn API_ALTEVA.main:app
 ## Endpoints
 
 - `/get_token` : récupère le token dynamique de la page de connexion.
-- `/login` (POST) : envoie `user`, `password` et `token` pour authentifier l'utilisateur.
+- `/login` (POST) : envoie `user`, `password` et `token` pour authentifier l'utilisateur et retourne les cookies envoyés par le serveur.
