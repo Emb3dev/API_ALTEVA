@@ -30,7 +30,6 @@ def get_token():
 
         # Récupère les cookies renvoyés par le serveur
         cookies = response.cookies.get_dict()
-        set_cookie = response.headers.get("set-cookie")
 
         # Parse le HTML
         soup = BeautifulSoup(response.text, "html.parser")
@@ -51,7 +50,6 @@ def get_token():
             "action_url": action,
             "token": token,
             "cookies": cookies,
-            "set_cookie": set_cookie,
         }
 
     except Exception as e:
@@ -60,7 +58,7 @@ def get_token():
 
 @app.post("/login")
 def login(user: str, password: str, token: str):
-    """Envoie les identifiants et retourne la réponse ainsi que les cookies."""
+    """Envoie les identifiants et retourne uniquement la réponse."""
     url = f"https://www.m7.alteva.eu/emIsSIOn2/Page_Authentification/{token}"
     data = {
         "WD_JSON_PROPRIETE_": "{\"m_oProprietesSecurisees\":{},\"m_oChampsModifies\":{\"A22\":true,\"A23\":true},\"m_oVariablesProjet\":{},\"m_oVariablesPage\":{}}",
@@ -80,14 +78,8 @@ def login(user: str, password: str, token: str):
         )
         response.raise_for_status()
 
-        # Récupère les cookies renvoyés par le serveur
-        cookies = response.cookies.get_dict()
-        set_cookie = response.headers.get("set-cookie")
-
         return {
             "response": response.text,
-            "cookies": cookies,
-            "set_cookie": set_cookie,
         }
     except Exception as e:
         return {"error": str(e)}
