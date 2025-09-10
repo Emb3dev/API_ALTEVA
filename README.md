@@ -14,3 +14,8 @@ If you run `uvicorn` from outside the project directory, include the full module
 ```bash
 uvicorn API_ALTEVA.main:app
 ```
+
+## Endpoints
+
+- `/get_token` : récupère le token dynamique de la page de connexion.
+- `/demande/{numero}?token=...` : retourne les informations principales d'une demande d'intervention.
